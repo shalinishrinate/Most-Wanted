@@ -220,17 +220,23 @@ function searchByHeight(people){
 
 }
 
-function searchByAge(people) {
- let ageOfPerson = promptFor("What is the person's age?", chars);
- let newArray = [];
- for (i = 0; i < people.length; i ++){
- let age = calculateAge(people);
- if (ageOfPerson == age){
-      newArray.push(people[i]);
-    }
-  }
-      return newArray;}
+  function getAge(personDateOfBirth){
+    let splitAge = personDateOfBirth.split ("/");
 
+    let today = new Date();
+    let todaysDate = today.getDate();
+    let todaysMonth = today.getMonth() + 1;
+    let todaysYear = today.getFullYear();
+
+    let age = todaysYear - splitAge[2];
+    if (todaysMonth > splitAge[1]){
+      age++;
+    }
+    else if(todaysMonth == splitAge[1]){
+      age++;
+    }
+    return age;
+  } 
 
 
 // function searchByDateOfBirth(people){
