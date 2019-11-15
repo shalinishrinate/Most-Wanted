@@ -75,35 +75,101 @@ function searchByName(people){
     }
   })
   // TODO: find the person using the name they entered- done
-  return foundPerson;
+  return foundPerson[0];
 }
 
 // create function for traits (searchByTraits) and insert into app function under 'case No'
-//still need weight, height, dob
+//still need dob
 // have to think of situation if person doesn't know- could they choice which traits to fill in?
 function searchByTraits(people){
-  // let notSure = promptFor("What traits do you know about this person?");
+  
+  let notSure = promptFor("What traits do you know about this person?");
+  // case switch? how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
+ 
+  let foundTraits = people.filter(function(person){
+    // if(person.gender === genderType && person.eyeColor === eyeColor && person.occupation === occupationType){
+    //   return true;
+    // }
+    // else{
+    //   return false;
+    // }
+  })
+}
 
+function searchByGender(people){
   let genderType = promptFor("Is the person male or female?", chars);
   genderType = genderType.toLowerCase();
-  console.log(genderType);
-  let eyeColor = promptFor("What color are the person's eyes?", chars);
-  eyeColor = eyeColor.toLowerCase();
-  console.log(eyeColor);
-  let occupationType = promptFor("What is this person's occupation?", chars);
-  occupationType = occupationType.toLowerCase();
 
-  let foundTraits = people.filter(function(person){
+  let foundGender = people.filter(function(person){
     person.gender = person.gender.toLowerCase();
-    person.eyeColor = person.eyeColor.toLowerCase();
-    person.occupation = person.occupation.toLowerCase();
-    if(person.gender === genderType && person.eyeColor === eyeColor && person.occupation === occupationType){
+    if (person.gender === genderType){
       return true;
     }
     else{
-      return false;
+      return searchByTraits(people);
     }
+    
   })
+}
+
+function searchByEyeColor(people){
+  let eyeColor = promptFor("What color are the person's eyes?", chars);
+  eyeColor = eyeColor.toLowerCase();
+
+  let foundEyeColor = people.filter(function(person){
+  person.eyeColor = person.eyeColor.toLowerCase();
+  if (person.eyeColor === eyeColor){
+    return true;
+  }
+  else{
+    return searchByTraits(people);
+  }
+  })
+}
+function searchByOccupation(people){
+  let occupationType = promptFor("What is this person's occupation?", chars);
+  occupationType = occupationType.toLowerCase();
+
+  let foundOccupation = people.filter(function(person){
+  person.occupation = person.occupation.toLowerCase();
+  if (person.occupation === occupationType){
+    return true;
+  }
+  else{
+    return searchByTraits(people);
+  }  
+  })
+}
+
+function searchByWeight(people){
+  let weightOfPerson = promptFor("How much does this person weigh?", chars);
+  weightOfPerson = weightOfPerson.toLowerCase();
+
+  let foundWeight = people.filter(function(person){
+  person.weight = person.weight.toLowerCase();
+  if (person.weight === weightOfPerson){
+    return true;
+  }
+  else{
+    return searchByTraits(people);
+  }
+  })
+}
+
+function searchByHeight(people){
+  let heightOfPerson = promptFor("How tall is this person?", chars);
+  heightOfPerson = heightOfPerson.toLowerCase();
+
+  let foundHeight = people.filter(function(person){
+  person.height = person.height.toLowerCase();
+  if (person.height === heightOfPerson){
+    return true;
+  }
+  else{
+    return searchByTraits(people);
+  }  
+  })
+
 }
 
 // alerts a list of people
