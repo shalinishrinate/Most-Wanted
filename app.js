@@ -4,7 +4,6 @@ Build all of your functions for displaying and gathering information below (GUI)
 */
 
 // app is the function called to start the entire application. work on later.
-// starts the whole process
 function app(people){
   let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   let searchResults;
@@ -38,7 +37,7 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+    displayPerson(person);
     break;
     case "family":
     // TODO: get person's family
@@ -74,27 +73,11 @@ function searchByName(people){
       return false;
     }
   })
-  // TODO: find the person using the name they entered- done
   return foundPerson[0];
 }
 
-// create function for traits (searchByTraits) and insert into app function under 'case No'
-//still need dob
 // have to think of situation if person doesn't know- could they choice which traits to fill in?
-function searchByTraits(people){
-  
-  let notSure = promptFor("What traits do you know about this person?");
-  // case switch? how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
- 
-  let foundTraits = people.filter(function(person){
-    // if(person.gender === genderType && person.eyeColor === eyeColor && person.occupation === occupationType){
-    //   return true;
-    // }
-    // else{
-    //   return false;
-    // }
-  })
-}
+// how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
 
 function searchByGender(people){
   let genderType = promptFor("Is the person male or female?", chars);
@@ -106,12 +89,11 @@ function searchByGender(people){
       return true;
     }
     else{
-      return searchByTraits(people);
+      return searchByTraits(people); //restart function to look for trait
     }
-    
   })
+  return foundGender[0];
 }
-
 function searchByEyeColor(people){
   let eyeColor = promptFor("What color are the person's eyes?", chars);
   eyeColor = eyeColor.toLowerCase();
@@ -122,9 +104,10 @@ function searchByEyeColor(people){
     return true;
   }
   else{
-    return searchByTraits(people);
+    return searchByTraits(people); //restart function to look for trait
   }
   })
+  return foundEyeColor[0];
 }
 function searchByOccupation(people){
   let occupationType = promptFor("What is this person's occupation?", chars);
@@ -136,11 +119,11 @@ function searchByOccupation(people){
     return true;
   }
   else{
-    return searchByTraits(people);
+    return searchByTraits(people); //restart function to look for trait
   }  
   })
+  return foundOccupation[0];
 }
-
 function searchByWeight(people){
   let weightOfPerson = promptFor("How much does this person weigh?", chars);
   weightOfPerson = weightOfPerson.toLowerCase();
@@ -151,11 +134,11 @@ function searchByWeight(people){
     return true;
   }
   else{
-    return searchByTraits(people);
-  }
+    return searchByTraits(people); //restart function to look for trait
+    }
   })
+  return foundWeight[0];
 }
-
 function searchByHeight(people){
   let heightOfPerson = promptFor("How tall is this person?", chars);
   heightOfPerson = heightOfPerson.toLowerCase();
@@ -166,10 +149,10 @@ function searchByHeight(people){
     return true;
   }
   else{
-    return searchByTraits(people);
-  }  
+    return searchByTraits(people); //restart function to look for trait
+    }  
   })
-
+  return foundHeight[0];
 }
 
 // alerts a list of people
