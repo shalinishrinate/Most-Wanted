@@ -3,17 +3,16 @@
 Build all of your functions for displaying and gathering information below (GUI).
 */
 
-// app is the function called to start the entire application
+// app is the function called to start the entire application. work on later.
 function app(people){
-  let searchType = prompt(" Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  let searchType = promptFor(" Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   let searchResults;
   switch(searchType){
     case 'yes':
       searchResults = searchByName(people);
       break;
     case 'no':
-      // TODO: search by traits
-
+      searchResults = searchByTraits(people);
       break;
       default:
     app(people); // restart app
@@ -38,10 +37,10 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-  
+    displayPerson(person);
     break;
     case "family":
-    // TODO: get person's family
+    displayFamily(people);
     break;
     case "descendants":
     // TODO: get person's descendants
@@ -67,11 +66,8 @@ function searchByName(people){
   console.log (lastName);
 
   let foundPerson = people.filter(function(person){
-
     person.firstName = person.firstName.toLowerCase();
-
     person.lastName = person.lastName.toLowerCase();
-
     if(person.firstName === firstName && person.lastName === lastName){
 
     return true;
@@ -80,13 +76,11 @@ function searchByName(people){
       return false;
     }
   })
-  // TODO: find the person using the name they entered- done
   return foundPerson[0];
 }
 
-// create function for traits (searchByTraits) and insert into app function under 'case No'
-//still need dob
 // have to think of situation if person doesn't know- could they choice which traits to fill in?
+
 function searchByTraits (people){
     
     let searchByTraits = promptFor("What traits do you want to search by? Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '6' Dateof Birth \n, '6' Occupation \n, '7' Eye Color, '8' Multiple traits\n");
@@ -141,6 +135,7 @@ break;
   })
 
 
+
 function searchByGender(people){
   let genderType = promptFor("Is the person male or female?", chars);
   genderType = genderType.toLowerCase();
@@ -152,12 +147,11 @@ function searchByGender(people){
       return true;
     }
     else{
-      return searchByTraits(people);
+      return searchByTraits(people); //restart function to look for trait
     }
-    
   })
+  return foundGender[0];
 }
-
 function searchByEyeColor(people){
   let eyeColor = promptFor("What color are the person's eyes?", chars);
   eyeColor = eyeColor.toLowerCase();
@@ -168,11 +162,13 @@ function searchByEyeColor(people){
     return true;
   }
   else{
-    return searchByTraits(people);
+    return searchByTraits(people); //restart function to look for trait
   }
   })
+
   // TODO: find the person using the name they entered
-  return foundPerson[0];
+  return foundEyeColor[0];
+
 }
 function searchByOccupation(people){
   let occupationType = promptFor("What is this person's occupation?", chars);
@@ -184,11 +180,11 @@ function searchByOccupation(people){
     return true;
   }
   else{
-    return searchByTraits(people);
+    return searchByTraits(people); //restart function to look for trait
   }  
   })
+  return foundOccupation[0];
 }
-
 function searchByWeight(people){
   let weightOfPerson = promptFor("How much does this person weigh?", chars);
   weightOfPerson = weightOfPerson.toLowerCase();
@@ -199,11 +195,11 @@ function searchByWeight(people){
     return true;
   }
   else{
-    return searchByTraits(people);
-  }
+    return searchByTraits(people); //restart function to look for trait
+    }
   })
+  return foundWeight[0];
 }
-
 function searchByHeight(people){
   let heightOfPerson = promptFor("How tall is this person?", chars);
   heightOfPerson = heightOfPerson.toLowerCase();
@@ -214,10 +210,10 @@ function searchByHeight(people){
     return true;
   }
   else{
-    return searchByTraits(people);
-  }  
+    return searchByTraits(people); //restart function to look for trait
+    }  
   })
-
+  return foundHeight[0];
 }
 
   function getAge(personDateOfBirth){
@@ -257,6 +253,7 @@ function displayPeople(people){
   }).join("\n"));
 }
 
+// alerts a list of person's description
 function displayPerson(person){
  
   let personInfo = "First Name: " + person.firstName + "\n";
@@ -267,9 +264,19 @@ function displayPerson(person){
   personInfo += "Age: " + person.age + "\n";
   personInfo += "Date of Birth: " + person.dob + "\n";
   personInfo += "Occupation: " + person.occupation + "\n";
-  personInfo += "eye Color" + person.eyecolor + "\n";
+  personInfo += "Eye Color: " + person.eyeColor + "\n";
 
    alert(personInfo);
+}
+
+// alerts list of family members
+function displayFamily(people){
+
+  alert(people.map(function(person){
+    if(lastName === person.lastName){
+      return person.firstName + " " + person.lastName;
+    }
+  }).join("\n"));
 }
 
 // function that prompts and validates user input
@@ -290,4 +297,3 @@ function yesNo(input){
     return true; // default validation only
   }
 
-  
