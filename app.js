@@ -13,9 +13,9 @@ function app(people){
       searchResults = searchByName(people);
       break;
     case 'no':
-      // TODO: search by traits
+      searchResults = searchByTraits(people);
       break;
-      default:
+    default:
     app(people); // restart app
       break;
   }
@@ -74,13 +74,36 @@ function searchByName(people){
       return false;
     }
   })
-  // TODO: find the person using the name they entered
+  // TODO: find the person using the name they entered- done
   return foundPerson;
 }
 
 // create function for traits (searchByTraits) and insert into app function under 'case No'
+//still need weight, height, dob
+// have to think of situation if person doesn't know- could they choice which traits to fill in?
 function searchByTraits(people){
-  
+  // let notSure = promptFor("What traits do you know about this person?");
+
+  let genderType = promptFor("Is the person male or female?", chars);
+  genderType = genderType.toLowerCase();
+  console.log(genderType);
+  let eyeColor = promptFor("What color are the person's eyes?", chars);
+  eyeColor = eyeColor.toLowerCase();
+  console.log(eyeColor);
+  let occupationType = promptFor("What is this person's occupation?", chars);
+  occupationType = occupationType.toLowerCase();
+
+  let foundTraits = people.filter(function(person){
+    person.gender = person.gender.toLowerCase();
+    person.eyeColor = person.eyeColor.toLowerCase();
+    person.occupation = person.occupation.toLowerCase();
+    if(person.gender === genderType && person.eyeColor === eyeColor && person.occupation === occupationType){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
 }
 
 // alerts a list of people
@@ -95,11 +118,6 @@ function displayPerson(person){
   // height, weight, age, name, occupation, eye color.
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo += "Last Name: " + person.lastName + "\n";
-  personInfo += "Height: " + person.height + ".";
-  personInfo += "Weight: " + person.weight + ".";
-  personInfo += "Age: " + person.dob + ".";
-  personInfo += "Eye Color: " + person.eyeColor + ".";
-  personInfo += "Occupation: " + person.occupation + ".";
 
   let personDescription = personInfo.reduce(function(total,el){
     return total + el;
@@ -117,8 +135,6 @@ function promptFor(question, valid){
   } while(!response || !valid(response));
   return response;
 }
-
-
 
 // helper function to pass into promptFor to validate yes/no answers
 function yesNo(input){
