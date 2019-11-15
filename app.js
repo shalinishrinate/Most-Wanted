@@ -3,24 +3,24 @@
 Build all of your functions for displaying and gathering information below (GUI).
 */
 
-// app is the function called to start the entire application. work on later.
-// starts the whole process
+// app is the function called to start the entire application
 function app(people){
-  let searchType = promptFor("Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
+  let searchType = prompt(" Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   let searchResults;
   switch(searchType){
     case 'yes':
       searchResults = searchByName(people);
       break;
     case 'no':
-      searchResults = searchByTraits(people);
+      // TODO: search by traits
+
       break;
-    default:
+      default:
     app(people); // restart app
       break;
   }
   
-//   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
+  // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
   mainMenu(searchResults, people);
 }
 
@@ -38,7 +38,7 @@ function mainMenu(person, people){
 
   switch(displayOption){
     case "info":
-    // TODO: get person's info
+  
     break;
     case "family":
     // TODO: get person's family
@@ -57,16 +57,21 @@ function mainMenu(person, people){
 }
 
 function searchByName(people){
+  
   let firstName = promptFor("What is the person's first name?", chars);
   firstName = firstName.toLowerCase();
-  console.log(firstName);
+  console.log (firstName);
+
   let lastName = promptFor("What is the person's last name?", chars);
   lastName = lastName.toLowerCase();
-  console.log(lastName);
+  console.log (lastName);
 
   let foundPerson = people.filter(function(person){
+
     person.firstName = person.firstName.toLowerCase();
+
     person.lastName = person.lastName.toLowerCase();
+
     if(person.firstName === firstName && person.lastName === lastName){
       return true;
     }
@@ -74,36 +79,8 @@ function searchByName(people){
       return false;
     }
   })
-  // TODO: find the person using the name they entered- done
-  return foundPerson;
-}
-
-// create function for traits (searchByTraits) and insert into app function under 'case No'
-//still need weight, height, dob
-// have to think of situation if person doesn't know- could they choice which traits to fill in?
-function searchByTraits(people){
-  // let notSure = promptFor("What traits do you know about this person?");
-
-  let genderType = promptFor("Is the person male or female?", chars);
-  genderType = genderType.toLowerCase();
-  console.log(genderType);
-  let eyeColor = promptFor("What color are the person's eyes?", chars);
-  eyeColor = eyeColor.toLowerCase();
-  console.log(eyeColor);
-  let occupationType = promptFor("What is this person's occupation?", chars);
-  occupationType = occupationType.toLowerCase();
-
-  let foundTraits = people.filter(function(person){
-    person.gender = person.gender.toLowerCase();
-    person.eyeColor = person.eyeColor.toLowerCase();
-    person.occupation = person.occupation.toLowerCase();
-    if(person.gender === genderType && person.eyeColor === eyeColor && person.occupation === occupationType){
-      return true;
-    }
-    else{
-      return false;
-    }
-  })
+  // TODO: find the person using the name they entered
+  return foundPerson[0];
 }
 
 // alerts a list of people
@@ -114,18 +91,18 @@ function displayPeople(people){
 }
 
 function displayPerson(person){
-  // print all of the information about a person:
-  // height, weight, age, name, occupation, eye color.
+ 
   let personInfo = "First Name: " + person.firstName + "\n";
-  personInfo += "Last Name: " + person.lastName + "\n";
+  personInfo = "Last Name: " + person.lastName + "\n";
+  personInfo += "Gender: " + person.gender + "\n";
+  personInfo += "Height: " + person.height + "\n";
+  personInfo += "Weight: " + person.weight + "\n";
+  personInfo += "Age: " + person.age + "\n";
+  personInfo += "Date of Birth: " + person.dob + "\n";
+  personInfo += "Occupation: " + person.occupation + "\n";
+  personInfo += "eye Color" + person.eyecolor + "\n";
 
-  let personDescription = personInfo.reduce(function(total,el){
-    return total + el;
-  })
-  console.log(personInfo);
-
-  // TODO: finish getting the rest of the information to display
-  alert(personInfo);
+   alert(personInfo);
 }
 
 // function that prompts and validates user input
@@ -142,6 +119,10 @@ function yesNo(input){
 }
 
 // helper function to pass in as default promptFor validation
-function chars(input){
-  return true; // default validation only
-}
+  function chars(input){
+    return true; // default validation only
+  }
+
+  function searchByTraits (people){
+    let searchByTrait = prompt (What traits do you want to search by ? 1=Gender, 2= Height, 3=Weight, 4=Age, 5= Dateof Birth, 6= Occupation, 7 = eye Color)
+  }
