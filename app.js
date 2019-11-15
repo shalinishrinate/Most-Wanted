@@ -33,16 +33,20 @@ function mainMenu(person, people){
     return app(people); // restart
   }
 
+  // Display Option pops up after person's name is typed in.
   let displayOption = prompt("Found " + person.firstName + " " + person.lastName + " . Do you want to know their 'info', 'family', or 'descendants'? Type the option you want or 'restart' or 'quit'");
 
   switch(displayOption){
     case "info":
     displayPerson(person);
+    // TODO: find person's info
     break;
     case "family":
-    displayFamily(people);
+    displayFamily(person, people);
+    // TODO: find person's family
     break;
     case "descendants":
+    displayDecendants(person, people);
     // TODO: get person's descendants
     break;
     case "restart":
@@ -81,7 +85,7 @@ function searchByName(people){
 
 // have to think of situation if person doesn't know- could they choice which traits to fill in?
 // how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
-
+// for traits try a for loop to filter down search
 function searchByGender(people){
   let genderType = promptFor("Is the person male or female?", chars);
   genderType = genderType.toLowerCase();
@@ -185,15 +189,75 @@ function displayPerson(person){
    alert(personInfo);
 }
 
-// alerts list of family members
-function displayFamily(people){
-
-  alert(people.map(function(person){
-    if(lastName === person.lastName){
-      return person.firstName + " " + person.lastName;
-    }
-  }).join("\n"));
+// alerts list of Family
+function displayFamily(person, people){
+  displayParents(person, people);
+  displaySpouse(person, people);
+  displaySiblings(person, people);
 }
+
+// alerts list of parents
+// May look into filtering by parents length, since parents are in a array
+function displayParents(person, people){
+  let displayFamilyInfo = person.firstName + "'s parents are ";
+
+let findParents = people.filter(function(el){
+  if(person.parents[0] === el.id && person.firstName !== el.firstName){
+    let firstParentsFullName = (el.firstName + " " + el.lastName); 
+    displayFamilyInfo += firstParentsFullName + "\n";
+    return true;
+  }
+    if(person.parents[1] === el.id && person.firstName !== el.firstName){
+      let secondParentsFullName = (el.firstName + " " + el.lastName);
+      displayFamilyInfo += " and " + secondParentsFullName + ".\n";
+      alert(displayFamilyInfo)
+      return true;
+    }
+  else{
+    return false;
+  }
+})
+  alert (displayFamilyInfo);
+  return findParents[0];
+}
+
+// alerts list of spouses
+function displaySpouse(person,people){
+
+let findSpouse = people.filter(function(el){
+  if (person.id === el.currentSpouse && el.id && person.firstName !== el.firstName){
+    let spousesName = el.firstName + " " + el.lastName;
+    return true;
+  }
+  else{
+    return false;
+    }
+  })
+    return findSpouse[0];
+}
+  
+// alerts list of siblings
+function displaySiblings(person, people){
+
+  let findSiblings = people.filter(function(el){
+    if (person.id === el.parents && person.firstName !== el.firstName){
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+    return findSiblings[0];
+}
+
+// alerts list of decendants (children, grandchildren)
+// function displayDecendants(person, people){
+
+//   let findDecendants = people.filter(function(el){
+//     return(person.id === el.parents);
+//   })
+//     return findDecendants[0];
+// }
 
 // function that prompts and validates user input
 function promptFor(question, valid){
