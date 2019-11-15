@@ -86,6 +86,62 @@ function searchByName(people){
 // have to think of situation if person doesn't know- could they choice which traits to fill in?
 // how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
 // for traits try a for loop to filter down search
+
+function searchByTraits (people){
+    
+    let searchByTraits = promptFor("What traits do you want to search by? Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '6' Dateof Birth \n, '6' Occupation \n, '7' Eye Color, '8' Multiple traits\n");
+  }
+
+switch (searchByTraits){
+case '1':
+searchByGender(people); 
+break;
+
+case '2'://height search
+searchByHeight(people);
+break;
+
+case '3'://weight search
+searchByWeight(people);
+break;
+
+case '4'://age search
+searchByAge(people);
+break;
+
+case '5'://date of birth search
+searchByDateOfBirth(people);
+break;
+
+case '6'://eye color search
+searchByOccupation(people);
+break;
+
+case '7'://height search
+searchByEyeColor(people);
+break;
+
+case '8':searchByMultipleTraits(people);
+break;
+}
+
+
+
+
+
+  // case switch? how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
+ 
+  let foundTraits = people.filter(function(person){
+    // if(person.gender === genderType && person.eyeColor === eyeColor && person.occupation === occupationType){
+    //   return true;
+    // }
+    // else{
+    //   return false;
+    // }
+  })
+
+
+
 function searchByGender(people){
   let genderType = promptFor("Is the person male or female?", chars);
   genderType = genderType.toLowerCase();
@@ -165,6 +221,36 @@ function searchByHeight(people){
   })
   return foundHeight[0];
 }
+
+  function getAge(personDateOfBirth){
+    let splitAge = personDateOfBirth.split ("/");
+
+    let today = new Date();
+    let todaysDate = today.getDate();
+    let todaysMonth = today.getMonth() + 1;
+    let todaysYear = today.getFullYear();
+
+    let age = todaysYear - splitAge[2];
+    if (todaysMonth > splitAge[1]){
+      age++;
+    }
+    else if(todaysMonth == splitAge[1]){
+      age++;
+    }
+    return age;
+  } 
+
+
+// function searchByDateOfBirth(people){
+//   let dateOfBirthOfPerson = promptFor("What is the person's date of birth: MM/DD/YYYY format",chars);
+//   // dateOfBirth ?????
+
+// let foundDateOfBirth = people.filter(function(person)){
+//   person.DateOfBirth = person.dateOfBirth
+// }
+
+// }
+
 
 // alerts a list of people
 function displayPeople(people){
@@ -277,7 +363,3 @@ function yesNo(input){
     return true; // default validation only
   }
 
-  // search by traits function
-  function searchByTraits (people){
-    let searchByTrait = prompt ("What traits do you want to search by ? 1=Gender, 2= Height, 3=Weight, 4=Age, 5= Dateof Birth, 6= Occupation, 7 = eye Color");
-  }
