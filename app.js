@@ -82,8 +82,7 @@ function searchByName(people){
 
 function searchByTraits (people){
     
-    let searchByTraits = promptFor("What traits do you want to search by? Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '6' Dateof Birth \n, '6' Occupation \n, '7' Eye Color,8' Multiple traits\n");
-  }
+    let searchByTraits = promptFor("What traits do you want to search by? Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '6' Dateof Birth \n, '6' Occupation \n, '7' Eye Color,8' Multiple traits\n",chars);
 
 switch (searchByTraits){
 case '1':
@@ -116,6 +115,7 @@ break;
 
 case '8':searchByMultipleTraits(people);
 break;
+}
 }
 
 
@@ -178,7 +178,7 @@ function searchByWeight(people){
   return foundWeight[0];
 }
 
- function getAge(personDateOfBirth){
+function getAge(personDateOfBirth){
 
     let splitAge = personDateOfBirth.split ("/");
 
@@ -195,24 +195,24 @@ function searchByWeight(people){
       age++;
     }
     return age;
-  } 
+} 
 
 function searchByAge(people){     //there is some missing piece in connecting the age calculated 
-  getAge(people);                   //earlier and the age got through prompt
+ //earlier and the age got through prompt
 
-  let ageOfPerson = promptFor("What is this person's age?");
+  let ageOfPerson = promptFor("What is this person's age?", chars);
   
-  let foundAge = people.filter(function(person){
+  let foundPerson = people.filter(function(person){
 
-  if (getAge(age)=== ageOfPerson){
+  if (getAge(person.dob) == ageOfPerson){
 
     return true;
   }
   else{
-    return searchByTraits(people); //restart the function so that new trait can be filled.
+    return false; //restart the function so that new trait can be filled.
   }  
-  })
-  return foundAge[0];
+  });
+  return foundPerson[0];
 }
 
 
@@ -310,7 +310,7 @@ let foundPerson = people.filter(function(personSpouse){
 
    alert(spouseInfo);
 
- }
+ 
 
    let foundPerson1 = people.filter(function(person1){
 
@@ -332,9 +332,9 @@ let foundPerson = people.filter(function(personSpouse){
   parentInfo += "eye Color" + parentArray[0].eyecolor + "\n";
 
    alert(parentInfo);
-l
-
 }
+
+
 
 // alerts list of family members
 function displayFamily(people){
