@@ -83,13 +83,15 @@ function searchByName(people){
   return foundPerson[0];
 }
 
+
 // have to think of situation if person doesn't know- could they choice which traits to fill in?
 // how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
 // for traits try a for loop to filter down search
 
+
 function searchByTraits (people){
     
-    let searchByTraits = promptFor("What traits do you want to search by? \n, Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '5' Dateof Birth \n, '6' Occupation \n, '7' Eye Color \n, '8' Multiple traits\n");
+let searchByTraits = promptFor("What traits do you want to search by? \n, Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '5' Dateof Birth \n, '6' Occupation \n, '7' Eye Color \n, '8' Multiple traits\n");
   }
 switch (searchByTraits){
 case '1':
@@ -124,7 +126,6 @@ case '8':searchByMultipleTraits(people);
 break;
 }
 
-
   // case switch? how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
  
   // let foundTraits = people.filter(function(person){
@@ -138,21 +139,26 @@ break;
 
 
 
+
 function searchByGender(people){
+
   let genderType = promptFor("Is the person male or female?", chars);
   genderType = genderType.toLowerCase();
 
   let foundGender = people.filter(function(person){
     person.gender = person.gender.toLowerCase();
+
     if (person.gender === genderType){
       return true;
     }
+
     else{
-      return searchByTraits(people); //restart function to look for trait
+      return searchByTraits(people); //restart the function so that new trait can be filled.
     }
   })
   return foundGender[0];
 }
+
 function searchByEyeColor(people){
   let eyeColor = promptFor("What color are the person's eyes?", chars);
   eyeColor = eyeColor.toLowerCase();
@@ -169,6 +175,7 @@ function searchByEyeColor(people){
   // TODO: find the person using the name they entered
   return foundEyeColor[0];
 }
+
 function searchByOccupation(people){
   let occupationType = promptFor("What is this person's occupation?", chars);
   occupationType = occupationType.toLowerCase();
@@ -184,6 +191,7 @@ function searchByOccupation(people){
   })
   return foundOccupation[0];
 }
+
 function searchByWeight(people){
   let weightOfPerson = promptFor("How much does this person weigh?", chars);
   weightOfPerson = weightOfPerson.toLowerCase();
@@ -199,23 +207,28 @@ function searchByWeight(people){
   })
   return foundWeight[0];
 }
+
 function searchByHeight(people){
+
   let heightOfPerson = promptFor("How tall is this person?", chars);
   heightOfPerson = heightOfPerson.toLowerCase();
 
   let foundHeight = people.filter(function(person){
-  person.height = person.height.toLowerCase();
-  if (person.height === heightOfPerson){
+  
+ if (person.height === heightOfPerson){
     return true;
   }
   else{
     return searchByTraits(people); //restart function to look for trait
-    }  
+  }
   })
+  // TODO: find the person using the name they entered
   return foundHeight[0];
 }
 
-  function getAge(personDateOfBirth){
+
+function getAge(personDateOfBirth){
+
     let splitAge = personDateOfBirth.split ("/");
 
     let today = new Date();
@@ -231,7 +244,27 @@ function searchByHeight(people){
       age++;
     }
     return age;
-  } 
+} 
+
+
+function searchByAge(people){     //there is some missing piece in connecting the age calculated 
+ //earlier and the age got through prompt
+
+  let ageOfPerson = promptFor("What is this person's age?", chars);
+  
+  let foundPerson = people.filter(function(person){
+
+  if (getAge(person.dob) == ageOfPerson){
+
+    return true;
+  }
+  else{
+    return false; //restart the function so that new trait can be filled.
+  }  
+  });
+  return foundPerson[0];
+}
+
 
 function searchByDateOfBirth(people){
   let dateOfBirthOfPerson = promptFor("What is the person's date of birth: MM/DD/YYYY format",chars);
@@ -240,6 +273,7 @@ function searchByDateOfBirth(people){
   alert (Math.abs(ageDate.getUTCFullYear() - 1970));
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
+
 
 // alerts a list of people
 function displayPeople(people){
@@ -263,12 +297,16 @@ function displayPerson(person){
    alert(personInfo);
 }
 
+// alerts list of family members
+function displayFamily(people){
+
 // alerts list of Family
 function displayFamily(person, people){
   displayParents(person, people);
   displaySpouse(person, people);
   displaySiblings(person, people);
 }
+
 
 // alerts list of parents
 // May look into filtering by parents length, since parents are in a array
@@ -372,4 +410,3 @@ function yesNo(input){
   function chars(input){
     return true; // default validation only
   }
-
