@@ -79,11 +79,10 @@ function searchByName(people){
   return foundPerson[0];
 }
 
-// have to think of situation if person doesn't know- could they choice which traits to fill in?
 
 function searchByTraits (people){
     
-    let searchByTraits = promptFor("What traits do you want to search by? Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '6' Dateof Birth \n, '6' Occupation \n, '7' Eye Color, '8' Multiple traits\n");
+    let searchByTraits = promptFor("What traits do you want to search by? Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '6' Dateof Birth \n, '6' Occupation \n, '7' Eye Color,8' Multiple traits\n");
   }
 
 switch (searchByTraits){
@@ -120,103 +119,67 @@ break;
 }
 
 
-
-
-
-  // case switch? how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
- 
-  let foundTraits = people.filter(function(person){
-    // if(person.gender === genderType && person.eyeColor === eyeColor && person.occupation === occupationType){
-    //   return true;
-    // }
-    // else{
-    //   return false;
-    // }
-  })
-
-
-
 function searchByGender(people){
+
   let genderType = promptFor("Is the person male or female?", chars);
   genderType = genderType.toLowerCase();
 
   let foundGender = people.filter(function(person){
     person.gender = person.gender.toLowerCase();
+
     if (person.gender === genderType){
 
       return true;
     }
+
     else{
-      return searchByTraits(people); //restart function to look for trait
+      return searchByTraits(people); //restart the function so that new trait can be filled.
     }
+
   })
   return foundGender[0];
 }
-function searchByEyeColor(people){
-  let eyeColor = promptFor("What color are the person's eyes?", chars);
-  eyeColor = eyeColor.toLowerCase();
 
-  let foundEyeColor = people.filter(function(person){
-  person.eyeColor = person.eyeColor.toLowerCase();
-  if (person.eyeColor === eyeColor){
-    return true;
-  }
-  else{
-    return searchByTraits(people); //restart function to look for trait
-  }
-  })
-
-  // TODO: find the person using the name they entered
-  return foundEyeColor[0];
-
-}
-function searchByOccupation(people){
-  let occupationType = promptFor("What is this person's occupation?", chars);
-  occupationType = occupationType.toLowerCase();
-
-  let foundOccupation = people.filter(function(person){
-  person.occupation = person.occupation.toLowerCase();
-  if (person.occupation === occupationType){
-    return true;
-  }
-  else{
-    return searchByTraits(people); //restart function to look for trait
-  }  
-  })
-  return foundOccupation[0];
-}
-function searchByWeight(people){
-  let weightOfPerson = promptFor("How much does this person weigh?", chars);
-  weightOfPerson = weightOfPerson.toLowerCase();
-
-  let foundWeight = people.filter(function(person){
-  person.weight = person.weight.toLowerCase();
-  if (person.weight === weightOfPerson){
-    return true;
-  }
-  else{
-    return searchByTraits(people); //restart function to look for trait
-    }
-  })
-  return foundWeight[0];
-}
 function searchByHeight(people){
+
   let heightOfPerson = promptFor("How tall is this person?", chars);
   heightOfPerson = heightOfPerson.toLowerCase();
 
   let foundHeight = people.filter(function(person){
+
   person.height = person.height.toLowerCase();
+
   if (person.height === heightOfPerson){
     return true;
   }
+
   else{
-    return searchByTraits(people); //restart function to look for trait
+    return searchByTraits(people); //restart the function so that new trait can be filled.
     }  
   })
   return foundHeight[0];
 }
 
-  function getAge(personDateOfBirth){
+function searchByWeight(people){
+
+  let weightOfPerson = promptFor("How much does this person weigh?", chars);
+  weightOfPerson = weightOfPerson.toLowerCase();
+
+  let foundWeight = people.filter(function(person){
+  person.weight = person.weight.toLowerCase();
+
+  if (person.weight === weightOfPerson){
+    return true;
+  }
+  else{
+    return searchByTraits(people); //restart the function so that new trait can be filled.
+    }
+  })
+  return foundWeight[0];
+}
+
+ function getAge(personDateOfBirth){
+
     let splitAge = personDateOfBirth.split ("/");
 
     let today = new Date();
@@ -234,16 +197,70 @@ function searchByHeight(people){
     return age;
   } 
 
+function searchByAge(people){     //there is some missing piece in connecting the age calculated 
+  getAge(people);                   //earlier and the age got through prompt
 
-// function searchByDateOfBirth(people){
-//   let dateOfBirthOfPerson = promptFor("What is the person's date of birth: MM/DD/YYYY format",chars);
-//   // dateOfBirth ?????
+  let ageOfPerson = promptFor("What is this person's age?");
+  
+  let foundAge = people.filter(function(person){
 
-// let foundDateOfBirth = people.filter(function(person)){
-//   person.DateOfBirth = person.dateOfBirth
-// }
+  if (getAge(age)=== ageOfPerson){
 
-// }
+    return true;
+  }
+  else{
+    return searchByTraits(people); //restart the function so that new trait can be filled.
+  }  
+  })
+  return foundAge[0];
+}
+
+
+
+
+function searchByOccupation(people){
+
+  let occupationType = promptFor("What is this person's occupation?", chars);
+  occupationType = occupationType.toLowerCase();
+
+  let foundOccupation = people.filter(function(person){
+  person.occupation = person.occupation.toLowerCase();
+
+  if (person.occupation === occupationType){
+    return true;
+  }
+  else{
+    return searchByTraits(people); //restart the function so that new trait can be filled.
+  }  
+  })
+  return foundOccupation[0];
+}
+
+
+
+function searchByEyeColor(people){
+
+  let eyeColor = promptFor("What color are the person's eyes?", chars);
+  eyeColor = eyeColor.toLowerCase();
+
+  let foundEyeColor = people.filter(function(person){
+  person.eyeColor = person.eyeColor.toLowerCase();
+
+  if (person.eyeColor === eyeColor){
+
+    return true;
+  }
+
+  else{
+    return searchByTraits(people); //restart the function so that new trait can be filled.
+  
+  }
+  })
+
+ return foundEyeColor[0];
+
+}
+
 
 
 // alerts a list of people
@@ -267,6 +284,56 @@ function displayPerson(person){
   personInfo += "Eye Color: " + person.eyeColor + "\n";
 
    alert(personInfo);
+}
+
+function displayFamily(people,person){
+let familyArray = [];
+let parentArray = [];
+
+
+
+let foundPerson = people.filter(function(personSpouse){
+
+   if(personSpouse.id === person.currentSpouse)
+        familyArray.push(personSpouse);
+    });
+
+ let spouseInfo = "First Name: " + familyArray[0].firstName + "\n";
+  spouseInfo += "Last Name: " + familyArray[0].lastName + "\n";
+  spouseInfo += "Gender: " + familyArray[0].gender + "\n";
+  spouseInfo += "Height: " + familyArray[0].height + "\n";
+  spouseInfo += "Weight: " + familyArray[0].weight + "\n";
+  spouseInfo += "Age: " + familyArray[0].age + "\n";
+  spouseInfo += "Date of Birth: " + familyArray[0].dob + "\n";
+  spouseInfo += "Occupation: " + familyArray[0].occupation + "\n";
+  spouseInfo += "eye Color" + familyArray[0].eyecolor + "\n";
+
+   alert(spouseInfo);
+
+ }
+
+   let foundPerson1 = people.filter(function(person1){
+
+      if(personSpouse.id === person.parents[0])
+        parentArray.push(person1);
+    
+    });
+  
+
+
+  let parentInfo = "First Name: " + parentArray[0].firstName + "\n";
+  parentInfo += "Last Name: " + parentArray[0].lastName + "\n";
+  parentInfo += "Gender: " + parentArray[0].gender + "\n";
+  parentInfo += "Height: " + parentArray[0].height + "\n";
+  parentInfo += "Weight: " + parentArray[0].weight + "\n";
+  parentInfo += "Age: " + parentArray[0].age + "\n";
+  parentInfo += "Date of Birth: " + parentArray[0].dob + "\n";
+  parentInfo += "Occupation: " + parentArray[0].occupation + "\n";
+  parentInfo += "eye Color" + parentArray[0].eyecolor + "\n";
+
+   alert(parentInfo);
+l
+
 }
 
 // alerts list of family members
