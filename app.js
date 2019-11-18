@@ -46,7 +46,8 @@ function mainMenu(person, people){
     // TODO: find person's family
     break;
     case "descendants":
-    displayDecendants(person, people);
+    let decendantsResult = displayDecendants(person, people);
+    displayPeople(decendantsResult);
     // TODO: get person's descendants
     break;
     case "restart":
@@ -91,7 +92,7 @@ function searchByName(people){
 
 function searchByTraits (people){
     
-let searchByTraits = promptFor("What traits do you want to search by? \n, Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '5' Dateof Birth \n, '6' Occupation \n, '7' Eye Color \n, '8' Multiple traits\n");
+let searchByTraits = promptFor("What traits do you want to search by? \n, Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '5' Occupation \n, '6' Eye Color \n, '7' Multiple traits\n");
   }
 switch (searchByTraits){
 case '1':
@@ -110,19 +111,15 @@ case '4'://age search
 searchByAge(person, people);
 break;
 
-case '5'://date of birth search
-searchByDateOfBirth(person, people);
-break;
-
-case '6'://eye color search
+case '5'://eye color search
 searchByOccupation(person, people);
 break;
 
-case '7'://height search
+case '6'://height search
 searchByEyeColor(person, people);
 break;
 
-case '8':searchByMultipleTraits(people);
+case '7':searchByMultipleTraits(people);
 break;
 }
 
@@ -136,9 +133,6 @@ break;
   //   //   return false;
   //   // }
   // })
-
-
-
 
 function searchByGender(people){
 
@@ -247,7 +241,7 @@ function getAge(personDateOfBirth){
 } 
 
 
-function searchByAge(people){     //there is some missing piece in connecting the age calculated 
+function searchByAge(people){  //there is some missing piece in connecting the age calculated 
  //earlier and the age got through prompt
 
   let ageOfPerson = promptFor("What is this person's age?", chars);
@@ -264,16 +258,6 @@ function searchByAge(people){     //there is some missing piece in connecting th
   });
   return foundPerson[0];
 }
-
-
-function searchByDateOfBirth(people){
-  let dateOfBirthOfPerson = promptFor("What is the person's date of birth: MM/DD/YYYY format",chars);
-  let ageDifference = Date.now() - dateOfBirthOfPerson.getTime();
-  let ageDate = new Date(ageDifference);
-  alert (Math.abs(ageDate.getUTCFullYear() - 1970));
-  return Math.abs(ageDate.getUTCFullYear() - 1970);
-}
-
 
 // alerts a list of people
 function displayPeople(people){
@@ -297,16 +281,12 @@ function displayPerson(person){
    alert(personInfo);
 }
 
-// alerts list of family members
-function displayFamily(people){
-
 // alerts list of Family
 function displayFamily(person, people){
   displayParents(person, people);
   displaySpouse(person, people);
   displaySiblings(person, people);
 }
-
 
 // alerts list of parents
 // May look into filtering by parents length, since parents are in a array
@@ -353,12 +333,12 @@ let findSpouse = people.filter(function(el){
 function displaySiblings(person, people){
   let displaySiblingInfo = "Sibling(s) of " + person.firstName + ":"
   let findSiblings = people.filter(function(el){
-    if(person.parents[0] === el.parents[0] || person.parents[0] === el.parents[1] && person.firstName !== el.firstName){
+    if((person.parents[0] === el.parents[0] || person.parents[0] === el.parents[1]) && person.id !== el.id){
       let siblingsName = el.firstName + " " + el.lastName + ", ";
       displaySiblingInfo += siblingsName;
       return true;
     }
-    else if(person.parents[1] === el.parents[0] || person.parents[1] === el.parents[1] && person.firstName !== el.firstName){
+    else if((person.parents[1] === el.parents[0] || person.parents[1] === el.parents[1]) && person.id !== el.id){
       let secondSiblingsName = el.firstName + " " + el.lastName + ", ";
       displaySiblingInfo += secondSiblingsName;
       return true; 
@@ -372,26 +352,24 @@ function displaySiblings(person, people){
 }
 
 // alerts list of decendants
-function displayDecendants(person, potentialChildren){
-  let findChildren = potentialChildren.filter(function(el){
-    if(person.id === el.parents && person.id !== el.id){
-      alert(person.firstName + "'s children are:" + el.firstName + " " + el.firstName);
-      person = el.id;
-      return displayDecendants(person, potentialChildren);
+function displayDecendants(person, people, foundChildren = []){
+  // let childrenStatement = person.firstName + "'s children: ";
+  let findChildren = people.filter(function(el){
+    if(person.id === el.parents[0] || person.id === el.parents[1]){
+      return true;
     }
     else{
       return false;
     }
   })
-}
 
-// recursion example from video
-// function displayListOfDecendants(person, people){
-//   console.log("");
-//   if(counter > 0){
-//     return displayListOfDecendants(counter-1);
-//   }
-// } 
+  foundChildren = [].concat(findChildren, foundChildren);
+
+  for(let i = 0; i < findChildren.length; i++){   
+    foundChildren = displayDecendants(findChildren[i], people, foundChildren);
+  }
+    return foundChildren;
+}
 
 // function that prompts and validates user input
 function promptFor(question, valid){
