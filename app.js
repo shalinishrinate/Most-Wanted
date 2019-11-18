@@ -89,15 +89,11 @@ function searchByName(people){
 
 function searchByTraits (people){
     
-    let searchByTraits = promptFor("What traits do you want to search by? Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '6' Dateof Birth \n, '6' Occupation \n, '7' Eye Color, '8' Multiple traits\n");
+    let searchByTraits = promptFor("What traits do you want to search by? \n, Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '5' Dateof Birth \n, '6' Occupation \n, '7' Eye Color \n, '8' Multiple traits\n");
   }
-
 switch (searchByTraits){
 case '1':
 searchByGender(person,people); 
-for(i = 0; i < people.length; i++){
-
-}
 break;
 
 case '2'://height search
@@ -149,7 +145,6 @@ function searchByGender(people){
   let foundGender = people.filter(function(person){
     person.gender = person.gender.toLowerCase();
     if (person.gender === genderType){
-
       return true;
     }
     else{
@@ -242,6 +237,7 @@ function searchByDateOfBirth(people){
   let dateOfBirthOfPerson = promptFor("What is the person's date of birth: MM/DD/YYYY format",chars);
   let ageDifference = Date.now() - dateOfBirthOfPerson.getTime();
   let ageDate = new Date(ageDifference);
+  alert (Math.abs(ageDate.getUTCFullYear() - 1970));
   return Math.abs(ageDate.getUTCFullYear() - 1970);
 }
 
@@ -281,12 +277,12 @@ function displayParents(person, people){
 
 let findParents = people.filter(function(el){
   if(person.parents[0] === el.id && person.firstName !== el.firstName){
-    let firstParentsFullName = (el.firstName + " " + el.lastName); 
+    let firstParentsFullName = (el.firstName + " " + el.lastName + " "); 
     displayParentInfo += firstParentsFullName;
     return true;
   }
   else if(person.parents[1] === el.id && person.firstName !== el.firstName){
-    let secondParentsFullName = (el.firstName + " " + el.lastName);
+    let secondParentsFullName = (el.firstName + " " + el.lastName + " ");
     displayParentInfo += secondParentsFullName;
     return true;
   }
@@ -315,7 +311,7 @@ let findSpouse = people.filter(function(el){
 }
   
 // alerts list of siblings
-// why is person's name repeating?
+// why is person's name repeating in siblings?
 function displaySiblings(person, people){
   let displaySiblingInfo = "Sibling(s) of " + person.firstName + ":"
   let findSiblings = people.filter(function(el){
@@ -337,15 +333,19 @@ function displaySiblings(person, people){
     return findSiblings[0];
 }
 
-// alerts list of decendants (children, grandchildren)
-// function displayDecendants(person, people){
-//     console.log("");
-//     if (person.id === el.parents && person.id !== el.id){
-//       console.log(el.firstName + " is a child of " + person.firstName + " .")
-//       return displayDecendants();
-//     }
-//   }
-// displayDecendants();
+// alerts list of decendants
+function displayDecendants(person, potentialChildren){
+  let findChildren = potentialChildren.filter(function(el){
+    if(person.id === el.parents && person.id !== el.id){
+      alert(person.firstName + "'s children are:" + el.firstName + " " + el.firstName);
+      person = el.id;
+      return displayDecendants(person, potentialChildren);
+    }
+    else{
+      return false;
+    }
+  })
+}
 
 // recursion example from video
 // function displayListOfDecendants(person, people){
@@ -354,7 +354,6 @@ function displaySiblings(person, people){
 //     return displayListOfDecendants(counter-1);
 //   }
 // } 
-// displayListOfDecendants();
 
 // function that prompts and validates user input
 function promptFor(question, valid){
