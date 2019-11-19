@@ -89,40 +89,44 @@ function searchByName(people){
 // how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
 // for traits try a for loop to filter down search
 
-
-function searchByTraits (people){
-    
-let searchByTraits = promptFor("What traits do you want to search by? \n, Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '5' Occupation \n, '6' Eye Color \n, '7' Multiple traits\n");
-  }
-switch (searchByTraits){
+function searchByTraits(people){
+let filterdResults = people;
+  while(filterdResults > 1){
+let searchTraits = prompt("What traits do you want to search by? \n, Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '5' Occupation \n, '6' Eye Color \n, '7' Multiple traits\n");
+switch (searchTraits){
 case '1':
-searchByGender(person,people); 
+filterdResults = searchByGender(filterdResults);
 break;
 
 case '2'://height search
-searchByHeight(person, people);
+filterdResults = searchByHeight(filterdResults);
 break;
 
 case '3'://weight search
-searchByWeight(person, people);
+filterdResults = searchByWeight(filterdResults);
 break;
 
 case '4'://age search
-searchByAge(person, people);
+filterdResults = searchByAge(filterdResults);
 break;
 
-case '5'://eye color search
-searchByOccupation(person, people);
+case '5'://occupation search
+filterdResults = searchByOccupation(filterdResults);
 break;
 
-case '6'://height search
-searchByEyeColor(person, people);
+case '6'://eye color search
+filterdResults = searchByEyeColor(filterdResults);
 break;
 
-case '7':searchByMultipleTraits(people);
-break;
+case "done":
+displayPeople(filterdResults);
+
+case 'quit':
+app(people);
+return true;
 }
-
+}
+}
   // case switch? how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
  
   // let foundTraits = people.filter(function(person){
@@ -150,7 +154,7 @@ function searchByGender(people){
       return searchByTraits(people); //restart the function so that new trait can be filled.
     }
   })
-  return foundGender[0];
+  return foundGender;
 }
 
 function searchByEyeColor(people){
@@ -167,7 +171,7 @@ function searchByEyeColor(people){
   }
   })
   // TODO: find the person using the name they entered
-  return foundEyeColor[0];
+  return foundEyeColor;
 }
 
 function searchByOccupation(people){
@@ -183,7 +187,7 @@ function searchByOccupation(people){
     return searchByTraits(people); //restart function to look for trait
   }  
   })
-  return foundOccupation[0];
+  return foundOccupation;
 }
 
 function searchByWeight(people){
@@ -199,7 +203,7 @@ function searchByWeight(people){
     return searchByTraits(people); //restart function to look for trait
     }
   })
-  return foundWeight[0];
+  return foundWeight;
 }
 
 function searchByHeight(people){
@@ -217,7 +221,7 @@ function searchByHeight(people){
   }
   })
   // TODO: find the person using the name they entered
-  return foundHeight[0];
+  return foundHeight;
 }
 
 
@@ -239,7 +243,6 @@ function getAge(personDateOfBirth){
     }
     return age;
 } 
-
 
 function searchByAge(people){  //there is some missing piece in connecting the age calculated 
  //earlier and the age got through prompt
@@ -353,7 +356,6 @@ function displaySiblings(person, people){
 
 // alerts list of decendants
 function displayDecendants(person, people, foundChildren = []){
-  // let childrenStatement = person.firstName + "'s children: ";
   let findChildren = people.filter(function(el){
     if(person.id === el.parents[0] || person.id === el.parents[1]){
       return true;
@@ -362,7 +364,6 @@ function displayDecendants(person, people, foundChildren = []){
       return false;
     }
   })
-
   foundChildren = [].concat(findChildren, foundChildren);
 
   for(let i = 0; i < findChildren.length; i++){   
