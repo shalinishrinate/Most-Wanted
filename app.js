@@ -3,7 +3,7 @@
 Build all of your functions for displaying and gathering information below (GUI).
 */
 
-// app is the function called to start the entire application. work on later.
+// app is the function called to start the entire application
 function app(people){
   let searchType = promptFor(" Do you know the name of the person you are looking for? Enter 'yes' or 'no'", yesNo).toLowerCase();
   let searchResults;
@@ -18,7 +18,7 @@ function app(people){
     app(people); // restart app
       break;
   }
-  
+
   // Call the mainMenu function ONLY after you find the SINGLE person you are looking for
   mainMenu(searchResults, people);
 }
@@ -61,7 +61,6 @@ function mainMenu(person, people){
 }
 
 function searchByName(people){
-  
   let firstName = promptFor("What is the person's first name?", chars);
   firstName = firstName.toLowerCase();
   console.log (firstName);
@@ -74,8 +73,7 @@ function searchByName(people){
     person.firstName = person.firstName.toLowerCase();
     person.lastName = person.lastName.toLowerCase();
     if(person.firstName === firstName && person.lastName === lastName){
-
-    return true;
+      return true;
     }
     else{
       return false;
@@ -84,77 +82,55 @@ function searchByName(people){
   return foundPerson[0];
 }
 
-
-// have to think of situation if person doesn't know- could they choice which traits to fill in?
-// how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
 // for traits try a for loop to filter down search
-
 function searchByTraits(people){
-let filterdResults = people;
-  while(filterdResults > 1){
-let searchTraits = prompt("What traits do you want to search by? \n, Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '5' Occupation \n, '6' Eye Color \n, '7' Multiple traits\n");
-switch (searchTraits){
-case '1':
-filterdResults = searchByGender(filterdResults);
-break;
-
-case '2'://height search
-filterdResults = searchByHeight(filterdResults);
-break;
-
-case '3'://weight search
-filterdResults = searchByWeight(filterdResults);
-break;
-
-case '4'://age search
-filterdResults = searchByAge(filterdResults);
-break;
-
-case '5'://occupation search
-filterdResults = searchByOccupation(filterdResults);
-break;
-
-case '6'://eye color search
-filterdResults = searchByEyeColor(filterdResults);
-break;
-
-case "done":
-displayPeople(filterdResults);
-
-case 'quit':
-app(people);
-return true;
-}
-}
-}
-  // case switch? how to add more than one trait to the search. ex: user knows height, eyes and weight, nothing else.
- 
-  // let foundTraits = people.filter(function(person){
-  //   // if(person.gender === genderType && person.eyeColor === eyeColor && person.occupation === occupationType){
-  //   //   return true;
-  //   // }
-  //   // else{
-  //   //   return false;
-  //   // }
-  // })
+  let filteredResults = people;
+  while(filteredResults.length > 1){
+  let searchTraits = prompt("What traits do you want to search by? \n, Enter '1' for Gender \n, '2' Height \n, '3' Weight \n, '4' Age \n, '5' Occupation \n, '6' Eye Color \n, press 'done' to filter results, and 'quit' to return to main menu.\n");
+  switch (searchTraits){
+  case '1':
+  filteredResults = searchByGender(filteredResults);
+  break;
+  case '2'://height search
+  filteredResults = searchByHeight(filteredResults);
+  break;
+  case '3'://weight search
+  filteredResults = searchByWeight(filteredResults);
+  break;
+  case '4'://age search
+  filteredResults = searchByAge(filteredResults);
+  break;
+  case '5'://occupation search
+  filteredResults = searchByOccupation(filteredResults);
+  break;
+  case '6'://eye color search
+  filteredResults = searchByEyeColor(filteredResults);
+  break;
+  case "done":
+  displayPeople(filteredResults);
+  break;
+  case 'quit':
+  app(people);  
+  break;
+    }
+  }
+} 
 
 function searchByGender(people){
-
   let genderType = promptFor("Is the person male or female?", chars);
   genderType = genderType.toLowerCase();
-
-  let foundGender = people.filter(function(person){
+  
+  let genderFound = people.filter(function(person){
     person.gender = person.gender.toLowerCase();
-
     if (person.gender === genderType){
       return true;
     }
-
     else{
-      return searchByTraits(people); //restart the function so that new trait can be filled.
+      return false; //restart the function so that new trait can be filled.
     }
   })
-  return foundGender;
+  filteredResults = displayPeople(genderFound);
+  searchByTraits(filteredResults);
 }
 
 function searchByEyeColor(people){
@@ -167,11 +143,12 @@ function searchByEyeColor(people){
     return true;
   }
   else{
-    return searchByTraits(people); //restart function to look for trait
+    return false; //restart function to look for trait
   }
   })
   // TODO: find the person using the name they entered
-  return foundEyeColor;
+  displayPeople(foundEyeColor);
+  searchByTraits(filteredResults);
 }
 
 function searchByOccupation(people){
@@ -184,10 +161,11 @@ function searchByOccupation(people){
     return true;
   }
   else{
-    return searchByTraits(people); //restart function to look for trait
+    return false; //restart function to look for trait
   }  
   })
-  return foundOccupation;
+  displayPeople(foundOccupation);
+  searchByTraits(filteredResults);
 }
 
 function searchByWeight(people){
@@ -195,38 +173,35 @@ function searchByWeight(people){
   weightOfPerson = weightOfPerson.toLowerCase();
 
   let foundWeight = people.filter(function(person){
-  person.weight = person.weight.toLowerCase();
   if (person.weight === weightOfPerson){
     return true;
   }
   else{
-    return searchByTraits(people); //restart function to look for trait
+    return false; //restart function to look for trait
     }
   })
-  return foundWeight;
+  displayPeople(foundWeight);
+  searchByTraits(filteredResults);
 }
 
 function searchByHeight(people){
-
   let heightOfPerson = promptFor("How tall is this person?", chars);
   heightOfPerson = heightOfPerson.toLowerCase();
 
   let foundHeight = people.filter(function(person){
-  
- if (person.height === heightOfPerson){
+  if (person.height === heightOfPerson){
     return true;
   }
   else{
-    return searchByTraits(people); //restart function to look for trait
+    return false; //restart function to look for trait
   }
   })
   // TODO: find the person using the name they entered
-  return foundHeight;
+  displayPeople(foundHeight);
+  searchByTraits(filteredResults);
 }
 
-
 function getAge(personDateOfBirth){
-
     let splitAge = personDateOfBirth.split ("/");
 
     let today = new Date();
@@ -248,18 +223,17 @@ function searchByAge(people){  //there is some missing piece in connecting the a
  //earlier and the age got through prompt
 
   let ageOfPerson = promptFor("What is this person's age?", chars);
-  
   let foundPerson = people.filter(function(person){
 
   if (getAge(person.dob) == ageOfPerson){
-
     return true;
   }
   else{
     return false; //restart the function so that new trait can be filled.
   }  
   });
-  return foundPerson[0];
+  displayPeople(foundPerson);
+  searchByTraits(filteredResults);
 }
 
 // alerts a list of people
@@ -271,7 +245,6 @@ function displayPeople(people){
 
 // alerts a list of person's description
 function displayPerson(person){
- 
   let personInfo = "First Name: " + person.firstName + "\n";
   personInfo = "Last Name: " + person.lastName + "\n";
   personInfo += "Gender: " + person.gender + "\n";
@@ -280,7 +253,6 @@ function displayPerson(person){
   personInfo += "Date of Birth: " + person.dob + "\n";
   personInfo += "Occupation: " + person.occupation + "\n";
   personInfo += "Eye Color: " + person.eyeColor + "\n";
-
    alert(personInfo);
 }
 
@@ -292,27 +264,26 @@ function displayFamily(person, people){
 }
 
 // alerts list of parents
-// May look into filtering by parents length, since parents are in a array
 function displayParents(person, people){
   let displayParentInfo = "Parent(s) of " + person.firstName + ": ";
 
-let findParents = people.filter(function(el){
-  if(person.parents[0] === el.id && person.firstName !== el.firstName){
-    let firstParentsFullName = (el.firstName + " " + el.lastName + " "); 
-    displayParentInfo += firstParentsFullName;
-    return true;
-  }
-  else if(person.parents[1] === el.id && person.firstName !== el.firstName){
-    let secondParentsFullName = (el.firstName + " " + el.lastName + " ");
-    displayParentInfo += secondParentsFullName;
-    return true;
-  }
-  else{
-    return false;
-  }
-})
-  alert (displayParentInfo);
-  return findParents[0];
+  let findParents = people.filter(function(el){
+    if(person.parents[0] === el.id && person.firstName !== el.firstName){
+      let firstParentsFullName = (el.firstName + " " + el.lastName + " "); 
+      displayParentInfo += firstParentsFullName;
+      return true;
+    }
+    else if(person.parents[1] === el.id && person.firstName !== el.firstName){
+      let secondParentsFullName = (el.firstName + " " + el.lastName + " ");
+      displayParentInfo += secondParentsFullName;
+      return true;
+    }
+    else{
+      return false;
+    }
+  })
+    alert (displayParentInfo);
+    return findParents[0];
 }
 
 // alerts list of spouses
@@ -331,8 +302,7 @@ let findSpouse = people.filter(function(el){
     return findSpouse[0];
 }
   
-// alerts list of siblings
-// why is person's name repeating in siblings?
+// alerts list of siblings- why is person's name repeating in siblings?
 function displaySiblings(person, people){
   let displaySiblingInfo = "Sibling(s) of " + person.firstName + ":"
   let findSiblings = people.filter(function(el){
@@ -365,7 +335,6 @@ function displayDecendants(person, people, foundChildren = []){
     }
   })
   foundChildren = [].concat(findChildren, foundChildren);
-
   for(let i = 0; i < findChildren.length; i++){   
     foundChildren = displayDecendants(findChildren[i], people, foundChildren);
   }
